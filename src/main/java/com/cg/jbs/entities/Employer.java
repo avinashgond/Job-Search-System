@@ -2,6 +2,7 @@ package com.cg.jbs.entities;
 
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,8 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -60,8 +60,8 @@ public class Employer implements UserDetails{
 	 */
 	private String phoneNumber;
 	
-	@OneToOne
-	private JobSeeker jobSeeker;
+	@OneToMany(mappedBy = "employer")
+	private Set<Job> allJobs;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

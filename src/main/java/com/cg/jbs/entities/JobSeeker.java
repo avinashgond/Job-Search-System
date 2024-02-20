@@ -1,6 +1,7 @@
 package com.cg.jbs.entities;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,7 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class JobSeeker implements UserDetails{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
@@ -34,8 +40,8 @@ public class JobSeeker implements UserDetails{
 	private String password;
 	private String skillSets;
 	
-	@OneToOne(mappedBy = "jobSeeker")
-	private Employer employer;
+	@OneToMany(mappedBy = "jobSeeker")
+	Set<Job> appliedJobs;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

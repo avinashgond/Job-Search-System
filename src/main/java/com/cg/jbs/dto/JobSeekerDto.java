@@ -2,7 +2,6 @@ package com.cg.jbs.dto;
 
 import com.cg.jbs.entities.Employer;
 
-import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
