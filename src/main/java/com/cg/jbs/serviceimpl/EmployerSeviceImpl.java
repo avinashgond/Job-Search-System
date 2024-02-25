@@ -1,5 +1,7 @@
 package com.cg.jbs.serviceimpl;
 
+import java.util.Date;
+
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,8 @@ import com.cg.jbs.entities.Employer;
 import com.cg.jbs.entities.Job;
 import com.cg.jbs.entities.JobSeeker;
 import com.cg.jbs.exception.EmployerAlreadyExistException;
+import com.cg.jbs.exception.EmployerNotFoundException;
+import com.cg.jbs.helper.UserRole;
 import com.cg.jbs.repositories.EmployerRepo;
 import com.cg.jbs.repositories.JobRepo;
 import com.cg.jbs.repositories.JobSeekerRepo;
@@ -51,6 +55,7 @@ public class EmployerSeviceImpl implements EmployerService {
 		JobSeeker jobSeeker = jobSeekerRepo.findByEmail(employer.getEmail());
 		if (existingEmployer == null & jobSeeker == null) {
 			employer.setPassword(bCryptPasswordEncoder.encode(employer.getPassword()));
+			employer.setRole(UserRole.ROLE_EMPLOYER);
 			employerRepo.save(employer);
 			return modelMapper.map(employer, EmployerDto.class);
 
@@ -63,8 +68,20 @@ public class EmployerSeviceImpl implements EmployerService {
 	@Override
 	public JobDto postJob(JobDto jobDto, Integer empId) {
 		Job job = modelMapper.map(jobDto, Job.class);
-		job.getEmployer().setId(empId);
-		jobRepo.save(job);
-		return modelMapper.map(job, JobDto.class);
+		Employer emp = employerRepo.findById(empId).orElseThrow(()-> new EmployerNotFoundException("Employer Id invalid!"));
+		job.setDate(new Date());
+		job.setEmployer(emp);
+		Job addedJob = jobRepo.save(job);
+		return modelMapper.map(addedJob, JobDto.class);
 	}
+
+//	@Override
+//	public JobDto postJob(JobDto jobDto, Integer empId) {
+//		Job job = modelMapper.map(jobDto, Job.class);
+//		Employer emp = employerRepo.findById(empId).orElseThrow(()->  new EmployerNotFoundException("Employer Id is invalid"));
+//		job.setEmployer(emp);
+//		job.setDate(new Date());
+//		Job addedJobDetails = jobRepo.save(job);
+//		return modelMapper.map(addedJobDetails, JobDto.class);
+//	}
 }

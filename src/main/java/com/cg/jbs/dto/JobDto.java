@@ -1,7 +1,6 @@
 package com.cg.jbs.dto;
 
-import com.cg.jbs.entities.Employer;
-import com.cg.jbs.entities.JobSeeker;
+import java.util.Date;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -15,7 +14,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
 public class JobDto {
 	
 	/**
@@ -73,8 +71,9 @@ public class JobDto {
 	@NotEmpty(message = "Status Must Be Reqired")
 	private String status;
 	
-	private Employer employer;
+	private Date date;
 	
-	private JobSeeker jobSeeker;
-
+	private EmployerDto employer;
+	
+	private JobSeekerDto jobSeeker;
 }

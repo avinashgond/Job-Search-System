@@ -16,7 +16,7 @@ public class CustomBeanProvider {
 	 * @return ModelMapper -- will return model mapper bean
 	 */
 	@Bean
-	ModelMapper getModelMapper() {
+	ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
 

@@ -6,7 +6,11 @@ import java.util.Set;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.cg.jbs.helper.UserRole;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -40,7 +44,12 @@ public class JobSeeker implements UserDetails{
 	private String password;
 	private String skillSets;
 	
-	@OneToMany(mappedBy = "jobSeeker")
+	/**
+	 * role -- contains role
+	 */
+	private UserRole role;
+	
+	@OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL)
 	Set<Job> appliedJobs;
 
 	@Override

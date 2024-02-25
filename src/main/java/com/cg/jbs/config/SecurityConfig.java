@@ -26,8 +26,11 @@ public class SecurityConfig {
        authorizeHttpRequests(
     		   auth->
     		   auth
-    		   .requestMatchers("/employer/**").authenticated()
-    		   .requestMatchers("/auth/**").permitAll().anyRequest().authenticated()
+//    		   .requestMatchers("/employer/**").authenticated()
+    		   .requestMatchers("/auth/**","/swagger-ui/").permitAll()
+    		   .requestMatchers("/employer/**").hasRole("EMPLOYER")
+    		   .requestMatchers("/jobseeker/**").hasRole("JOBSEEKER")
+    		   .anyRequest().authenticated()
     		   ).exceptionHandling(ex->ex.authenticationEntryPoint(authenticationEntryPoint))
        .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
     	http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);

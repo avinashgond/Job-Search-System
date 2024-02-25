@@ -3,8 +3,6 @@ package com.cg.jbs.services;
 import com.cg.jbs.dto.EmployerDto;
 import com.cg.jbs.dto.JobDto;
 
-import jakarta.validation.Valid;
-
 public interface EmployerService {
 
 	/**

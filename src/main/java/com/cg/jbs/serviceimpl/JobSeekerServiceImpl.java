@@ -9,6 +9,7 @@ import com.cg.jbs.dto.JobSeekerDto;
 import com.cg.jbs.entities.Employer;
 import com.cg.jbs.entities.JobSeeker;
 import com.cg.jbs.exception.JobSeekerEmailAlreadyRegistered;
+import com.cg.jbs.helper.UserRole;
 import com.cg.jbs.repositories.EmployerRepo;
 import com.cg.jbs.repositories.JobSeekerRepo;
 import com.cg.jbs.services.JobSeekerService;
@@ -35,6 +36,7 @@ public class JobSeekerServiceImpl implements JobSeekerService{
 		Employer employer = employerRepo.findByEmail(jobSeeker.getEmail());
 		if(existingJobSeeker == null & employer == null) {
 			jobSeeker.setPassword(bCryptPasswordEncoder.encode(jobSeekerDto.getPassword()));
+			jobSeeker.setRole(UserRole.ROLE_JOBSEEKER);
 			jobSeekerRepo.save(jobSeeker);
 			return modelMapper.map(jobSeeker, JobSeekerDto.class);
 		}else {

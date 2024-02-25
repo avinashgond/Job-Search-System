@@ -10,4 +10,5 @@ class JobSearchSystemApplicationTests {
 	void contextLoads() {
 	}
 
+
 }

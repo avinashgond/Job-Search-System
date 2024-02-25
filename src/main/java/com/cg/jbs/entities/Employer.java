@@ -7,6 +7,10 @@ import java.util.Set;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.cg.jbs.helper.UserRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -60,14 +64,16 @@ public class Employer implements UserDetails{
 	 */
 	private String phoneNumber;
 	
-	@OneToMany(mappedBy = "employer")
+	/**
+	 * role -- contains role details
+	 */
+	private UserRole role;
+	
+	@OneToMany(mappedBy = "employer", cascade = CascadeType.ALL)
 	private Set<Job> allJobs;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-//		List<SimpleGrantedAuthority> authories = this.roles.stream()
-//				.map((role) -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toList());
-//		return authories;
 		return null;
 	}
 

@@ -1,6 +1,9 @@
 package com.cg.jbs.entities;
 
+import java.util.Date;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -72,12 +75,16 @@ public class Job {
 	 */
 	private String status;
 	
-	@ManyToOne
+	/**
+	 * date -- contains date
+	 */
+	private Date date;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "employer_id")
 	private Employer employer;
 	
-	@ManyToOne
+	@ManyToOne(fetch =  FetchType.EAGER)
 	@JoinColumn(name = "jobSeeker_id")
 	private JobSeeker jobSeeker;
-
 }

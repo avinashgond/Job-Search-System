@@ -1,9 +1,5 @@
 package com.cg.jbs.dto;
 
-import com.cg.jbs.entities.JobSeeker;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -60,5 +56,13 @@ public class EmployerDto {
 	/**
 	 * jobSeeker -- will contains job seeker details
 	 */
-	private JobSeeker jobSeeker;
+//	private JobSeekerDto jobSeekerDto;
+	
+	public String getPasswordString() {
+		return this.password;
+	}
+	
+	public void setPassword(String psw) {
+		this.password = psw;
+	}
 }

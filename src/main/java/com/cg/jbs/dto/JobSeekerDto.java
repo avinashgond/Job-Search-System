@@ -64,7 +64,7 @@ public class JobSeekerDto {
 	private String skillSets;
 	
 	/**
-	 * employer -- contains employer details
+	 * employerDto -- contains employer details
 	 */
-	private Employer employer;
+	private EmployerDto employerDto;
 }
