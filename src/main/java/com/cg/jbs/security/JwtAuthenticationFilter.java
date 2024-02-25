@@ -68,6 +68,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			// fetch user detail from username
 			try {
 				UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+				System.out.println("ROLE IS:"+userDetails.getAuthorities());
 				Boolean validateToken = this.jwtHelper.validateToken(token, userDetails);
 				if (validateToken) {
 

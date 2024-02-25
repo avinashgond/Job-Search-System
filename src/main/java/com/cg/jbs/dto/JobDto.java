@@ -5,7 +5,6 @@ import java.util.Date;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +14,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class JobDto {
+	
+	/**
+	 * id -- contains job id
+	 */
+	private Integer id;
 	
 	/**
 	 * jobTitile -- contains job title

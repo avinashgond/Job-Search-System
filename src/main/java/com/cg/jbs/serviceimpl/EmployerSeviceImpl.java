@@ -16,11 +16,14 @@ import com.cg.jbs.entities.Job;
 import com.cg.jbs.entities.JobSeeker;
 import com.cg.jbs.exception.EmployerAlreadyExistException;
 import com.cg.jbs.exception.EmployerNotFoundException;
+import com.cg.jbs.exception.JobIdNotFoundException;
 import com.cg.jbs.helper.UserRole;
 import com.cg.jbs.repositories.EmployerRepo;
 import com.cg.jbs.repositories.JobRepo;
 import com.cg.jbs.repositories.JobSeekerRepo;
 import com.cg.jbs.services.EmployerService;
+
+import jakarta.validation.Valid;
 
 @Service
 public class EmployerSeviceImpl implements EmployerService {
@@ -54,11 +57,12 @@ public class EmployerSeviceImpl implements EmployerService {
 		Employer existingEmployer = employerRepo.findByEmail(employer.getEmail());
 		JobSeeker jobSeeker = jobSeekerRepo.findByEmail(employer.getEmail());
 		if (existingEmployer == null & jobSeeker == null) {
+			/* Set Encrypted Password */
 			employer.setPassword(bCryptPasswordEncoder.encode(employer.getPassword()));
+			/* Set Role */
 			employer.setRole(UserRole.ROLE_EMPLOYER);
 			employerRepo.save(employer);
 			return modelMapper.map(employer, EmployerDto.class);
-
 		} else {
 			throw new EmployerAlreadyExistException("Email id already registered");
 		}
@@ -75,13 +79,28 @@ public class EmployerSeviceImpl implements EmployerService {
 		return modelMapper.map(addedJob, JobDto.class);
 	}
 
-//	@Override
-//	public JobDto postJob(JobDto jobDto, Integer empId) {
-//		Job job = modelMapper.map(jobDto, Job.class);
-//		Employer emp = employerRepo.findById(empId).orElseThrow(()->  new EmployerNotFoundException("Employer Id is invalid"));
-//		job.setEmployer(emp);
-//		job.setDate(new Date());
-//		Job addedJobDetails = jobRepo.save(job);
-//		return modelMapper.map(addedJobDetails, JobDto.class);
-//	}
+	@Override
+	public JobDto updateJobDetails(JobDto jobDto, Integer jobId) {
+		Job existingJob = jobRepo.findById(jobId).orElseThrow(()-> new JobIdNotFoundException("Invalid Job Id!!"));
+		existingJob.setContactEmail(jobDto.getContactEmail());
+		existingJob.setDate(new Date());
+		existingJob.setDescription(jobDto.getDescription());
+//		existingJob.setEmployer(existingJob.getEmployer());
+//		existingJob.setJobSeeker(existingJob.getJobSeeker());
+		existingJob.setExperience(jobDto.getExperience());
+		existingJob.setJobTitile(jobDto.getJobTitile());
+		existingJob.setLocation(jobDto.getLocation());
+		existingJob.setNoticePeriod(jobDto.getNoticePeriod());
+		existingJob.setRequiredSkills(jobDto.getRequiredSkills());
+		existingJob.setSalary(jobDto.getSalary());
+		existingJob.setStatus(jobDto.getStatus());
+		jobRepo.save(existingJob);
+		return modelMapper.map(existingJob, JobDto.class);
+	}
+
+	@Override
+	public void deleteJobByJobId(Integer jobId) {
+		Job existingJob = jobRepo.findById(jobId).orElseThrow(()-> new JobIdNotFoundException("Invalid Job Id!!"));
+		jobRepo.delete(existingJob);
+	}
 }

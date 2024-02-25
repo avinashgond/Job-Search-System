@@ -39,5 +39,10 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<String> handleJobSeekerEmailIdAlreadyRegistered(final JobSeekerEmailAlreadyRegistered ex){
 		return new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
 	}
+	
+	@ExceptionHandler(JobIdNotFoundException.class)
+	public ResponseEntity<String> handleJobIdNotFoundException(final JobIdNotFoundException ex){
+		return new ResponseEntity<String>(ex.getMessage(),HttpStatus.BAD_REQUEST);
+	}
 
 }
