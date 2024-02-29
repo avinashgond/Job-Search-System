@@ -78,6 +78,4 @@ public class JobDto {
 	private Date date;
 	
 	private EmployerDto employer;
-	
-	private JobSeekerDto jobSeeker;
 }

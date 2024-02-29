@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.cg.jbs.entities.Employer;
 import com.cg.jbs.entities.JobSeeker;
+import com.cg.jbs.exception.ResourceNotFoundException;
 import com.cg.jbs.helper.UserRole;
 import com.cg.jbs.repositories.EmployerRepo;
 import com.cg.jbs.repositories.JobSeekerRepo;
@@ -28,9 +29,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Employer employer = employerRepo.findByEmail(email);
-        JobSeeker jobSeeker = jobSeekerRepo.findByEmail(email);
-
+        Employer employer = employerRepo.findByEmail(email).orElse(null);
+        JobSeeker jobSeeker = jobSeekerRepo.findByEmail(email).orElse(null);
         if (employer != null) {
             return new org.springframework.security.core.userdetails.User(employer.getEmail(), employer.getPassword(),
                     getAuthorities(employer.getRole()));

@@ -1,6 +1,7 @@
 package com.cg.jbs.dto;
 
-import com.cg.jbs.entities.Employer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -63,8 +64,18 @@ public class JobSeekerDto {
 	@NotEmpty(message = "Skill sets must be required")
 	private String skillSets;
 	
+	@JsonIgnore
+	public String getPassword() {
+		return this.password;
+	}
+	
+	@JsonProperty
+	public void setPassword(String password) {
+		this.password=password;
+	}
+	
 	/**
 	 * employerDto -- contains employer details
 	 */
-	private EmployerDto employerDto;
+//	private EmployerDto employerDto;
 }

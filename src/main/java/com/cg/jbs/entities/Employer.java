@@ -8,9 +8,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.cg.jbs.helper.UserRole;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -42,6 +42,7 @@ public class Employer implements UserDetails{
 	/**
 	 * email -- contains employer email
 	 */
+	@Column(unique = true)
 	private String email;
 	
 	/**
@@ -52,6 +53,7 @@ public class Employer implements UserDetails{
 	/**
 	 * organizationName -- contains employer organizationName
 	 */
+	@Column(unique = true)
 	private String organizationName;
 	
 	/**
@@ -71,6 +73,9 @@ public class Employer implements UserDetails{
 	
 	@OneToMany(mappedBy = "employer", cascade = CascadeType.ALL)
 	private Set<Job> allJobs;
+	
+	@OneToMany(mappedBy = "employer", cascade = CascadeType.ALL)
+	private Set<EmployerMessage> allMessage;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
