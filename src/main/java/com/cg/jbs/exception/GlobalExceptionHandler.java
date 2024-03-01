@@ -44,5 +44,21 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<String> handleJobIdNotFoundException(final JobIdNotFoundException ex){
 		return new ResponseEntity<String>(ex.getMessage(),HttpStatus.BAD_REQUEST);
 	}
+	
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<String> handleResourceNotFoundException(final ResourceNotFoundException ex){
+		return new ResponseEntity<String>(ex.getMessage(),HttpStatus.BAD_REQUEST);
+	}
+	
+	
+	@ExceptionHandler(OrganizationAlreadyRegistered.class)
+	public ResponseEntity<String> handleOrganizationAlreadyRegistered(final OrganizationAlreadyRegistered ex){
+		return new ResponseEntity<String>(ex.getMessage(),HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(NoAnyResultFoundException.class)
+	public ResponseEntity<String> handleNoAnyResultFoundException(final NoAnyResultFoundException ex){
+		return new ResponseEntity<String>(ex.getMessage(),HttpStatus.BAD_REQUEST);
+	}
 
 }

@@ -9,20 +9,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.cg.jbs.helper.UserRole;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "job-seeker")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -36,21 +35,34 @@ public class JobSeeker implements UserDetails{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(unique = true)
 	private Integer id;
-	private String name;
-	private String address;
-	private String mobileNumber;
-	private String email;
-	private String password;
-	private String skillSets;
 	
+	private String name;
+	
+	private String address;
+	
+	private String mobileNumber;
+	
+	@Column(unique = true)
+	private String email;
+	
+	private String password;
+	
+	private String skillSets;	
 	/**
 	 * role -- contains role
 	 */
 	private UserRole role;
 	
 	@OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL)
-	Set<Job> appliedJobs;
+	Set<AppliedJobs> appliedJobs;
+	
+	@OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL)
+	Set<EmployerMessage> allMessage;
+	
+	@OneToOne(mappedBy = "jobSeeker", cascade = CascadeType.ALL)
+	private Basket basket;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

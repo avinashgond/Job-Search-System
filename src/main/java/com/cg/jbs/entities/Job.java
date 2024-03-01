@@ -1,19 +1,25 @@
 package com.cg.jbs.entities;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "jobs")
@@ -21,6 +27,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Job {
 	
 	/**
@@ -28,6 +35,7 @@ public class Job {
 	 */
 	@Id
 	@GeneratedValue(strategy =  GenerationType.AUTO)
+	@Column(unique = true)
 	private Integer id;
 	
 	/**
@@ -84,7 +92,9 @@ public class Job {
 	@JoinColumn(name = "employer_id")
 	private Employer employer;
 	
-	@ManyToOne(fetch =  FetchType.EAGER)
-	@JoinColumn(name = "jobSeeker_id")
-	private JobSeeker jobSeeker;
+//	@ManyToOne(fetch =  FetchType.EAGER)
+//	private JobSeeker jobSeeker;
+	
+	@ManyToMany(mappedBy = "jobs")
+    private Set<Basket> baskets = new HashSet<>();
 }

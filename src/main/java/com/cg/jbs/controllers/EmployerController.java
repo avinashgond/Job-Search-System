@@ -1,11 +1,15 @@
 package com.cg.jbs.controllers;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.jbs.dto.JobDto;
+import com.cg.jbs.dto.JobSeekerDto;
 import com.cg.jbs.services.EmployerService;
 
 import jakarta.validation.Valid;
@@ -64,5 +69,27 @@ public class EmployerController {
 	public ResponseEntity<String> deleteJob(@Valid @RequestParam Integer jobId){
 		employerService.deleteJobByJobId(jobId);
 		return new ResponseEntity<String>("Successfully Deleted !!", HttpStatus.OK);
+	}
+	
+	/**
+	 * This EndPoint use to view all jobs
+	 * @param empId -- contains empId
+	 * @return ResponseEntity<List<JobDto>> -- will return list of job dto
+	 */
+	@GetMapping("/view-all-jobs/{empId}")
+	public ResponseEntity<List<JobDto>> viewAllJobs(@PathVariable Integer empId){
+		List<JobDto> allJobs = employerService.viewAllJobsByEmpId(empId);
+		return new ResponseEntity<List<JobDto>>(allJobs,HttpStatus.OK);
+	}
+	
+	/**
+	 * This EndPoint use to search all job seekers by their skill sets
+	 * @param skillSets -- contains skill sets
+	 * @return ResponseEntity<List<JobSeekerDto>> -- will return List of JobSeekerDto
+	 */
+	@GetMapping("/search-jobseekers-by-skill-sets")
+	public ResponseEntity<List<JobSeekerDto>> searchJobSeekersBySkillSet(@RequestParam String skillSets){
+		List<JobSeekerDto> allJobs = employerService.searchJobSeekersByTheirSkillSets(skillSets);
+		return new ResponseEntity<List<JobSeekerDto>>(allJobs, HttpStatus.OK);
 	}
 }
